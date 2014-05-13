@@ -1,4 +1,4 @@
-package com.datastax.transactions;
+package com.datastax.creditcard;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,11 +19,7 @@ import com.datastax.transactions.model.Order;
 
 public class Main {
 
-	private static AtomicLong TOTAL_PRODUCTS_SOLD = new AtomicLong(0);
-	private static int NO_OF_PRODUCTS = 1000;
-	private static final int NO_OF_BUYERS = 1000;
 	private static Logger logger = LoggerFactory.getLogger(Main.class);
-	private Set<String> outOfStock = new HashSet<String>();
 
 	public Main() {
 
@@ -33,18 +29,13 @@ public class Main {
 		String noOfProductsStr = PropertyHelper.getProperty("noOfProducts", "10");
 		String inStockStr =  PropertyHelper.getProperty("inStock", "1000");
 		
-		NO_OF_PRODUCTS = Integer.parseInt(noOfProductsStr);
-		int noOfThreads = Integer.parseInt(noOfThreadsStr);
-		int noOfOrders = Integer.parseInt(noOfOrdersStr);
-		int totalStock = Integer.parseInt(inStockStr);	
-
 		logger.info("Starting with " + noOfThreads + " threads, " + noOfOrders  + " orders, " + NO_OF_PRODUCTS 
 				+ " products and " + totalStock + " quantity in stock.");
 		
 		OrderDao dao = new OrderDao(contactPointsStr.split(","));
 				
 		//Are we loading only or loading and running order processor
-		if (System.getProperty("loadOnly") != null){
+		if (System.getProperty("runBalanceUpdate") != null){
 			dao.initializeProductTable(NO_OF_PRODUCTS, totalStock);
 			return;
 		}else if(System.getProperty("load") != null){

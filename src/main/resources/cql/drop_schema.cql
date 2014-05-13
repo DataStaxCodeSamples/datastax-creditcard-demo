@@ -1,7 +1,8 @@
-use datastax_transactions_demo;
+use datastax_creditcard_demo;
 
-truncate products;
-truncate buyers_orders; 
+truncate credit_card_transactions_balance;
+truncate credit_card_transactions_by_issuer_date;
+truncate transaction_date_minute_counter;
 
-drop keyspace datastax_transactions_demo;
+drop keyspace datastax_creditcard_demo;
 	
